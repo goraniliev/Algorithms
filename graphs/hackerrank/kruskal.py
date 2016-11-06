@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from blist import sorteddict
-from union_find.union_find import UnionFind
-
+# https://www.hackerrank.com/challenges/kruskalmstrsub
 __author__ = 'goran'
 
 
@@ -15,6 +13,40 @@ class Edge:
         return self.weight < other.weight
 
 
+class UnionFind:
+    def __init__(self, n: int):
+        self.parent = [0] * n
+        self.rank = [0] * n
+
+        for i in range(n):
+            self.make_set(i)
+
+    def make_set(self, i: int):
+        self.parent[i] = i
+        self.rank[i] = 0
+
+    def union(self, x: int, y: int):
+        x_root = self.find(x)
+        y_root = self.find(y)
+
+        if x_root == y_root:
+            return
+
+        # x and y are not already in the same set -> Merge them
+        if self.rank[x_root] < self.rank[y_root]:
+            self.parent[x_root] = y_root
+        elif self.rank[x_root] > self.rank[y_root]:
+            self.parent[y_root] = x_root
+        else:
+            self.parent[y_root] = x_root
+            self.rank[x_root] += 1
+
+    def find(self, x: int):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+
 class Graph:
     INF = 100000000000
 
@@ -23,7 +55,7 @@ class Graph:
         self.directed = directed
         self.adj = {}
         for i in range(1, N + 1):
-            self.adj[i] = sorteddict()
+            self.adj[i] = dict()
 
     def add_edge(self, from_, to, weight):
         self.adj[from_][to] = weight
@@ -75,3 +107,12 @@ class Graph:
                 break
 
         return kruskal_edges
+
+
+(N, M) = tuple([int(i) for i in input().split()])
+g = Graph(N)
+for i in range(M):
+    x, y, r = tuple([int(i) for i in input().split()])
+    g.add_edge(x, y, r)
+kruskal_edges = g.kruskal()
+print(sum([edge.weight for edge in kruskal_edges]))

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from blist import sorteddict
+# https://www.hackerrank.com/challenges/primsmstsub
 
 __author__ = 'goran'
 
@@ -12,7 +12,7 @@ class Graph:
         self.directed = directed
         self.adj = {}
         for i in range(1, N + 1):
-            self.adj[i] = sorteddict()
+            self.adj[i] = dict()
 
     def add_edge(self, from_, to, weight):
         self.adj[from_][to] = weight
@@ -40,8 +40,6 @@ class Graph:
 
         return min_span_tree
 
-
-# https://www.hackerrank.com/challenges/primsmstsub
 
 (n, m) = map(int, input().split())
 g = Graph(n, False)
