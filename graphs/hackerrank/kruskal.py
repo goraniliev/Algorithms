@@ -54,7 +54,7 @@ class Graph:
         self.N = N
         self.directed = directed
         self.adj = {}
-        for i in range(1, N + 1):
+        for i in range(0, N):
             self.adj[i] = dict()
 
     def add_edge(self, from_, to, weight):
@@ -94,7 +94,7 @@ class Graph:
     def kruskal(self):
         all_edges = sorted(self.get_all_edges)
 
-        uf = UnionFind(len(all_edges))
+        uf = UnionFind(self.N)
 
         kruskal_edges = []
 
@@ -113,6 +113,6 @@ class Graph:
 g = Graph(N)
 for i in range(M):
     x, y, r = tuple([int(i) for i in input().split()])
-    g.add_edge(x, y, r)
+    g.add_edge(x - 1, y - 1, r)
 kruskal_edges = g.kruskal()
 print(sum([edge.weight for edge in kruskal_edges]))

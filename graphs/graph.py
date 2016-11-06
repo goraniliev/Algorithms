@@ -22,7 +22,7 @@ class Graph:
         self.N = N
         self.directed = directed
         self.adj = {}
-        for i in range(1, N + 1):
+        for i in range(N):
             self.adj[i] = sorteddict()
 
     def add_edge(self, from_, to, weight):
